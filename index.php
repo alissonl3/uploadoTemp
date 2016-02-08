@@ -3,6 +3,26 @@
     require_once './componentes/topo.php';
 ?>
 
+<script type="text/javascript">
+    // Use jQuery com a variavel $j(...)
+    var $j = jQuery.noConflict();
+    $j(document).ready(function() {
+    $j("#btnVoltarTopo").hide();
+    $j(function () {
+    $j(window).scroll(function () {
+    if ($j(this).scrollTop() > 500) {
+    $j('#btnVoltarTopo').fadeIn();
+      } else {
+    $j('#btnVoltarTopo').fadeOut();
+    }
+    });
+    $j('#btnVoltarTopo').click(function() {
+    $j('body,html').animate({scrollTop:0},600);
+    }); 
+    });});
+</script>
+
+<div id="voltarTopo"></div>
 <div class="w3-row" style="width: 100%;">
     
     <div class="w3-container w3-white"  style="padding: 20px;">
@@ -39,6 +59,14 @@
             <p>      
             <label class="w3-text-teal"><b>Tempo:</b> (Hora:Min)</label>
             <input class="w3-input w3-border" name="tempo" type="time"></p>
+            
+            <p>      
+            <label class="w3-text-teal"><b>Email:</b></label>
+            <input class="w3-input w3-border" name="email" type="email"></p>
+            
+            <p>      
+            <label class="w3-text-teal"><b>Senha:</b> (Hora:Min)</label>
+            <input class="w3-input w3-border" name="senha" type="password"></p>
 
             <center>
             <button class="w3-btn w3-red">UPLOAD</button></center>
@@ -109,9 +137,9 @@
         </div>
         <br />
         <div class="w3-large w3-wide" style="color: graytext;">
-            <p> O NomeSite foi criado com o intuito de upar arquivos temporariamente, onde apenas pessoas que possuem a url do arquivo possa baixa-lo.</p>
-            <p> O NomeSite não exige um login, permitindo que qualquer pessoa possa upar seu arquivo no formato .zip e .rar.</p>
-            <p>Criado em XX/XX/XXX utilizando PHP, MySQL e W3C.css</p>
+            <p> O TempUp foi criado com o intuito de upar arquivos temporariamente, onde apenas pessoas que possuem a url do arquivo possa baixa-lo.</p>
+            <p> O TempUP não exige um login, permitindo que qualquer pessoa possa upar seu arquivo no formato .zip e .rar.</p>
+            <p>Criado em XX/XX/XXX utilizando PHP, MySQL, AngularJS e W3C.css</p>
         </div>
     </div>
     <br />
@@ -129,7 +157,7 @@
             <hr />
             <p  class="w3-medium w3-wide" style="color: graytext;">
                 Formado em técnico em informática pelo Instituto Federal Campus Paranavaí e atualmente atua com Java e C#. 
-                Possui conhecimento em: JavaScript, MySQL, PHP, ArgularJS, Java, C#, HTML, BootStrap.
+                Possui conhecimento em: JavaScript, MySQL, PHP, ArgularJS, JQuery, Android, Java, C#, HTML, BootStrap.
                 Ama tecnologia e vive em busca de novidades referente a essa área.
             </p>
             
@@ -168,6 +196,13 @@
     
     
 </div>
+
+            <!-- botao voltar topo -->
+            <input type="button" id="btnVoltarTopo" class="w3-btn-floating-large w3-red" style="
+                    bottom: 20px !important;
+                    position: fixed;
+                    right: 30px;" 
+            onclick="$j('html,body').animate({scrollTop: $j('#voltarTopo').offset().top}, 1000);" value="^" >
 
 <?php 
     require_once './componentes/rodape.php';
