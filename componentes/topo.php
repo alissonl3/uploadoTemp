@@ -23,9 +23,9 @@
             <center>
                 <nav class="w3-topnav w3-large w3-teal w3-slim topnav">
                 <a href="#"><i class="fa fa-home"></i></a>
-                <a href="#comousar">COMO USAR?</a>
-                <a href="#sobre">SOBRE</a>
-                <a href="#contato">CONTATO</a>
+                <a href="#" onclick="$j('html,body').animate({scrollTop: $j('#comousar').offset().top}, 1000);">COMO USAR?</a>
+                <a href="#" onclick="$j('html,body').animate({scrollTop: $j('#sobre').offset().top}, 1000);">SOBRE</a>
+                <a href="#" onclick="$j('html,body').animate({scrollTop: $j('#contato').offset().top}, 1000);">CONTATO</a>
             </nav>
             </center>
         </div>

@@ -31,7 +31,7 @@
             <p>Arquivos ativos: <span class="w3-badge w3-red">6</span></p>
         </div>
         
-        <div class="w3-container w3-green" id="succes">
+        <div class="w3-container w3-green w3-animate-left" id="succes">
             <h3>Sucesso!</h3>
             <p>Clique em "Baixar" para iniciar o download do seu arquivo, ou utilize a URL.</p>
         </div>
@@ -44,6 +44,40 @@
         <center>
             <div class="w3-xxxlarge w3-wide w3-animate-zoom" style="color: graytext; margin-top: 40px;">BAIXAR O ARQUIVO</div>
         </center>
+        <br />
+        <center>
+            <img src="resources/img/relo.png" class="w3-spin " style="max-height: 50px;" />
+            
+            <script type="text/javascript">
+
+                var digital = new Date(); // crio um objeto date do javascript
+                //digital.setHours(15,59,56); // caso não queira testar com o php, comente a linha abaixo e descomente essa
+                digital.setHours(<?php echo date("H,i,s"); ?>); // seto a hora usando a hora do servidor
+                <!--
+                function clock() {
+                var hours = digital.getHours();
+                var minutes = digital.getMinutes();
+                var seconds = digital.getSeconds();
+                digital.setSeconds( seconds+1 ); // aquin que faz a mágica
+                // acrescento zero
+                if (minutes <= 9) minutes = "0" + minutes;
+                if (seconds <= 9) seconds = "0" + seconds;
+
+                dispTime = hours + ":" + minutes + ":" + seconds;
+                document.getElementById("clock").innerHTML = dispTime; // coloquei este div apenas para exemplo
+                setTimeout("clock()", 1000); // chamo a função a cada 1 segundo
+
+                }
+
+                window.onload = clock;
+                //-->
+
+            </script>
+<!-- coloquei este div apenas para exemplo //-->
+
+            
+           <div class="w3-xxxlarge w3-wide" style="color: graytext; margin-top: 40px;"><div id="clock"></div></div>       
+        </center>       
         <br />
         <hr />
         <br />
