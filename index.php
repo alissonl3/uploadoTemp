@@ -31,6 +31,13 @@
             <p>Arquivos ativos: <span class="w3-badge w3-red">6</span></p>
         </div>
         
+        <form method="post" action="controle/recebe_upload.php" enctype="multipart/form-data">
+            <label>Arquivo</label>
+            <input type="file" name="arquivo" />
+
+            <input type="submit" value="Enviar" />
+        </form>
+        
         <center>
             <div class="w3-xxxlarge w3-wide w3-animate-zoom" style="color: graytext; margin-top: 40px;">SELECIONE O ARQUIVO</div>
         </center>
@@ -42,14 +49,14 @@
             <div class="w3-xxlarge w3-wide" style="color: graytext; margin-top: 30px;">ARQUIVO</div>
             <br />
             <div class="w3-xlarge w3-wide" style="color: graytext; padding: 20px;">Os tipos de arquivos 
-            suportados são .zip e .rar</div>
+            suportados são .zip e .rar e não deve exceder o tamanho de 2 MB.</div>
             <br />
             <a href="#comousar" class="w3-btn w3-teal" >MAIS</a>
         </center> 
         </div>
         <div class="w3-half">
-            <form class="w3-container w3-card-4" action="#">
-
+            <form class="w3-container w3-card-4" action="<?php $_SERVER["PHP_SELF"] ?>" method="POST">
+            <input type="hidden" name="acao" value="upload" />
             <h2 class="w3-text-teal">PREENCHA OS CAMPOS</h2>
 
             <p>      
@@ -206,4 +213,26 @@
 
 <?php 
     require_once './componentes/rodape.php';
+?>
+
+<?php
+
+//METODO PARA FAZER O UPLOAD
+if(isset($_POST['acao'])){
+        
+        //VERIFICAÇÃO SE A AÇÃO É UPLOAD
+        if($_POST['acao'] == "upload")
+        {
+            
+        }
+        
+        //VERIFICA SE A AÇÃO É EMAIL
+        if($_POST['acao'] == "email")
+        {
+            
+        }
+        
+        
+}
+
 ?>
