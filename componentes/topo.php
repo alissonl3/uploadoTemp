@@ -1,10 +1,12 @@
 <html >
 <head>
-  <title>Upload Temporário</title>
+  <title>TempUp</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
   <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <script src='https://www.google.com/recaptcha/api.js'></script>
   <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
   <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
 </head>
@@ -16,7 +18,7 @@
                 <br />
                 <br />
                 <div class="w3-right toptext w3-wide">
-                    FAÇA UPLOAD DE ARQUIVOS
+                    FAÇA UPLOAD DE ARQUIVOS TEMPORARIAMENTE
                 </div>
             </div>
             <br />

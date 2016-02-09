@@ -36,21 +36,27 @@ class DaoArquivo {
             
             $sql = "INSERT INTO arquivo("
                     . "nome,"
-                    . "email,"
                     . "tempo,"
-                    . "senha"
+                    . "caminho,"
+                    . "time,"
+                    . "tamanho,"
+                    . "tipo"
                     . ") VALUES ("
                     . ":nome,"
-                    . ":email,"
                     . ":tempo,"
-                    . ":senha)";
+                    . ":caminho,"
+                    . ":time,"
+                    . ":tamanho,"
+                    . ":tipo)";
             
             $p_sql = $this->pdo->prepare($sql);
             
             $p_sql -> bindValue(":nome", $arquivo->getNome());
-            $p_sql -> bindValue(":email", $arquivo->getEmail());
             $p_sql -> bindValue(":tempo", $arquivo->getTempo());
-            $p_sql -> bindValue(":senha", $arquivo->getSenha());
+            $p_sql -> bindValue(":caminho", $arquivo->getCaminho());
+            $p_sql -> bindValue(":time", $arquivo->getTime());
+            $p_sql -> bindValue(":tamanho", $arquivo->getTamanho());
+            $p_sql -> bindValue(":tipo", $arquivo->getTipo());
             
             
             return $p_sql->execute();
@@ -71,18 +77,22 @@ class DaoArquivo {
             
             $sql = "UPDATE arquivo SET "
                     . "nome = :nome,"
-                    . "email = :email,"
                     . "tempo = :tempo,"
-                    . "senha = :senha "
+                    . "caminho = :caminho,"
+                    . "time = :time,"
+                    . "tamanho = :tamanho,"
+                    . "tipo = :tipo "
                     . "WHERE id = :id";
             
             $p_sql = $this->pdo->prepare($sql);
             
             $p_sql -> bindValue(":id", $arquivo->getId());
             $p_sql -> bindValue(":nome", $arquivo->getNome());
-            $p_sql -> bindValue(":email", $arquivo->getEmail());
             $p_sql -> bindValue(":tempo", $arquivo->getTempo());
-            $p_sql -> bindValue(":senha", $arquivo->getSenha());
+            $p_sql -> bindValue(":caminho", $arquivo->getCaminho());
+            $p_sql -> bindValue(":time", $arquivo->getTime());
+            $p_sql -> bindValue(":tamanho", $arquivo->getTamanho());
+            $p_sql -> bindValue(":tipo", $arquivo->getTipo());
             
             return $p_sql->execute();
             
@@ -120,6 +130,26 @@ class DaoArquivo {
     
    
 
+    public function buscarPorTime($time){
+        
+         try{
+            
+            $sql = "SELECT * FROM arquivo WHERE time = :time";
+            $p_sql = $this->pdo->prepare($sql);
+            $p_sql -> bindValue(":time", $time);
+            $p_sql->execute();
+    
+             return $this->populaArquivo($p_sql->fetch(PDO::FETCH_ASSOC));
+           
+              }       
+        catch (Exception $e){
+     
+            print "Ocorreu um erro ao tentar executar esta ação, foi gerado um LOG do mesmo, tente novamente mais tarde."; 
+           
+     
+        }
+        
+    }
     
     
     
@@ -200,9 +230,12 @@ class DaoArquivo {
         $arquivo = new Arquivo();
         $arquivo ->setId($row['id']);
         $arquivo ->setNome($row['nome']);
-        $arquivo ->setEmail($row['email']);
         $arquivo ->setTempo($row['tempo']);
-        $arquivo ->setSenha($row['senha']);
+        $arquivo ->setCaminho($row['caminho']);
+        $arquivo ->setTime($row['time']);
+        $arquivo ->setTamanho($row['tamanho']);
+        $arquivo ->setTipo($row['tipo']);
+        
         
         return $arquivo;
     }

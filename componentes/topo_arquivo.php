@@ -1,6 +1,6 @@
 <html >
 <head>
-  <title>Upload Temporário</title>
+  <title>TempUp</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -17,7 +17,7 @@
                 <br />
                 <br />
                 <div class="w3-right toptext w3-wide">
-                    FAÇA UPLOAD DE ARQUIVOS
+                    FAÇA UPLOAD DE ARQUIVOS TEMPORARIAMENTE
                 </div>
             </div>
             <br />

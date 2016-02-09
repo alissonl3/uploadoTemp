@@ -1,6 +1,49 @@
 
 <?php 
     require_once './componentes/topo.php';
+    
+    require_once './conexao/Conexao.php';
+    require_once './entidade/Arquivo.php';
+    require_once './dao/DaoArquivo.php';
+    
+    $arquivo = new Arquivo();
+    $dao = new DaoArquivo();
+    
+    $arquivosAtivos = count($dao->buscarTodos());
+    
+    
+    $showErroTamanho = false;
+    $showErroTipo = false;
+    $showErroEnviar = false;
+    $showErroUpload = false;
+    $showErroCaptcha = false;
+    
+    if(isset($_GET['erro']))
+    {
+        if($_GET['erro'] == "tamanho")
+        {
+            $showErroTamanho = true;
+        }
+        
+        if($_GET['erro'] == "tipo")
+        {
+            $showErroTipo = true;
+        }
+        
+        if($_GET['erro'] == "enviar")
+        {
+            $showErroEnviar = true;
+        }
+        
+        if($_GET['erro'] == "captcha")
+        {
+            $showErroCaptcha = true;
+        }
+        
+        
+    }
+
+    
 ?>
 
 <script type="text/javascript">
@@ -23,23 +66,16 @@
 </script>
 
 <div id="voltarTopo"></div>
-<div class="w3-row" style="width: 100%;">
+<div class="w3-row" style="width: 100%;" ng-app="">
     
     <div class="w3-container w3-white"  style="padding: 20px;">
-        
         <div style="color: graytext;">
-            <p>Arquivos ativos: <span class="w3-badge w3-red">6</span></p>
+            <p>Arquivos ativos: <span class="w3-badge w3-red"><?php echo $arquivosAtivos; ?></span></p>
         </div>
         
-        <form method="post" action="controle/recebe_upload.php" enctype="multipart/form-data">
-            <label>Arquivo</label>
-            <input type="file" name="arquivo" />
-
-            <input type="submit" value="Enviar" />
-        </form>
         
         <center>
-            <div class="w3-xxxlarge w3-wide w3-animate-zoom" style="color: graytext; margin-top: 40px;">SELECIONE O ARQUIVO</div>
+            <div class="w3-xxxlarge w3-wide w3-animate-zoom" style="color: graytext; margin-top: 40px;">SELECIONE UM ARQUIVO</div>
         </center>
         <br />
         <hr />
@@ -49,34 +85,38 @@
             <div class="w3-xxlarge w3-wide" style="color: graytext; margin-top: 30px;">ARQUIVO</div>
             <br />
             <div class="w3-xlarge w3-wide" style="color: graytext; padding: 20px;">Os tipos de arquivos 
-            suportados são .zip e .rar e não deve exceder o tamanho de 2 MB.</div>
+            suportados são zip, rar, jpg, png, gif, txt, xlsx, apk e não deve exceder o tamanho de 2 MB.</div>
             <br />
-            <a href="#comousar" class="w3-btn w3-teal" >MAIS</a>
+            <a href="#" onclick="$j('html,body').animate({scrollTop: $j('#comousar').offset().top}, 1000);" class="w3-btn w3-teal" >MAIS</a>
         </center> 
         </div>
         <div class="w3-half">
-            <form class="w3-container w3-card-4" action="<?php $_SERVER["PHP_SELF"] ?>" method="POST">
+            <form class="w3-container w3-card-4" action="index.php" method="POST" enctype="multipart/form-data">                 
             <input type="hidden" name="acao" value="upload" />
             <h2 class="w3-text-teal">PREENCHA OS CAMPOS</h2>
-
-            <p>      
-            <label class="w3-text-teal"><b>Arquivo:</b> (.rar;.zip)</label>
-            <input  class="w3-input w3-border" name="arquivo" type="file"></p>
-
-            <p>      
-            <label class="w3-text-teal"><b>Tempo:</b> (Hora:Min)</label>
-            <input class="w3-input w3-border" name="tempo" type="time"></p>
+            
+            <p style="color: red;" ng-show="<?php echo $showErroTamanho; ?>">O arquivo enviado é muito grande, por favor envie arquivos de até 2Mb.</p>
+            <p style="color: red;" ng-show="<?php echo $showErroTipo; ?>">Por favor, envie arquivos com as seguintes extensões: zip, rar, jpg, png, gif, txt, xlsx ou apk.</p>
+            <p style="color: red;" ng-show="<?php echo $showErroEnviar; ?>">Lamentamos, não foi possivel enviar o arquivo. Tente mais tarde.</p>
+            <p style="color: red;" ng-show="<?php echo $showErroCaptcha; ?>">Por favor, confirme o captcha.</p>
+            
+                               
             
             <p>      
-            <label class="w3-text-teal"><b>Email:</b></label>
-            <input class="w3-input w3-border" name="email" type="email"></p>
-            
-            <p>      
-            <label class="w3-text-teal"><b>Senha:</b> (Hora:Min)</label>
-            <input class="w3-input w3-border" name="senha" type="password"></p>
+            <label class="w3-text-teal"><b>Arquivo:</b> (rar, zip, jpg, png, gif e txt)</label>
+            <input required class="w3-input w3-border" name="arquivo" type="file"></p>
 
+            <p>      
+            <label class="w3-text-teal"><b>Tempo:</b> (min)</label>
+            <input required max="10" class="w3-input w3-border" name="tempoUp" type="number"></p>
+            
+            
+            
+            <div class="g-recaptcha" data-sitekey="6LcYxxcTAAAAAMPVR1NLXt0LSaAO7Ned3vSqmGQ9"></div>
+            <br />
+            
             <center>
-            <button class="w3-btn w3-red">UPLOAD</button></center>
+                <button class="w3-btn w3-red" type="submit">UPLOAD</button></center>
             <br />
 
             </form>
@@ -106,7 +146,7 @@
             <li>
                 <div class="w3-large w3-wide" style="color: graytext;">
                     2 - Informe o tempo que queira que ele permaneca ativo para download. OBS: O tempo deve ser informado
-                    no seguinte formato: Hora:Min.
+                    em minutos e menor que 10 minutos.
                 </div>
             </li>
         </ul>
@@ -124,7 +164,7 @@
             </li>
             <li>
                 <div class="w3-large w3-wide" style="color: graytext;">
-                    2 - Acessando a url o download iniciára automáticamente.
+                    2 - Acessando a url o download iniciára automáticamente dependendo do tipo de arquivo.
                 </div>
             </li>
         </ul>
@@ -140,7 +180,7 @@
         </center>
         <br />
         <div class="w3-container w3-pale-blue w3-leftbar w3-border-blue">
-            <p>"Quem já não quis enviar um arquivo para seu colega e foi impedido? Quem já não quis upar um arquivo para que somente seu colega baixasse para deletar ele."</p>
+            <p>"Quem já não quis enviar um arquivo e foi impedido? Quem já não quis upar um arquivo para somente baixar e logo após deletar ele."</p>
         </div>
         <br />
         <div class="w3-large w3-wide" style="color: graytext;">
@@ -223,6 +263,89 @@ if(isset($_POST['acao'])){
         //VERIFICAÇÃO SE A AÇÃO É UPLOAD
         if($_POST['acao'] == "upload")
         {
+            
+            
+            require_once './controle/recebe_upload.php';
+            
+            
+            
+            if (isset($_POST['g-recaptcha-response'])) 
+                $captcha_data = $_POST['g-recaptcha-response'];
+          
+            if($_POST['tempoUp'])
+                $arquivo->setTempo($_POST['tempoUp']);
+            
+            
+                $arquivo->setNome($nome_final);
+                
+                $arquivo->setCaminho($_UP['pasta'] . $nome_final);
+                
+                $arquivo->setTime($nome_final);
+                
+                $arquivo->setTamanho($tam);
+                
+                $arquivo->setTipo($extensao);
+                
+                $timezone = new DateTimeZone('America/Sao_Paulo');
+       
+                $horario = date("H:i");
+                             
+       
+                $tempo = date("H:i",strtotime($horario." + ".$arquivo->getTempo()." minutes"));
+                
+                $arquivo->setTempo($tempo.":".date("s"));
+                
+            if ($captcha_data) 
+            {    
+            if($tipoErro === "semErro")
+            {
+                //GRAVAR O EMAIL
+                $dao->inserir($arquivo);
+                
+                echo "<script type='text/javascript'>";
+                        echo "location.href='http://localhost/uploadoTemp/arquivo.php?upload=ok&url=".$nome_final."';";
+                echo "</script>";
+            }
+            else if($tipoErro === "tamanhoPHP" || $tipoErro === "tamanhoHTML" || $tipoErro === "tamanho")
+            {
+                echo "<script type='text/javascript'>";
+                        echo "location.href='http://localhost/uploadoTemp/index.php?erro=tamanho';";
+                echo "</script>";
+            }
+            else if($tipoErro === "uploadParcialmente")
+            {
+                echo "<script type='text/javascript'>";
+                         echo "location.href='http://localhost/uploadoTemp/arquivo.php?upload=parcial&url=".$nome_final."';";
+                echo "</script>";
+                
+            }
+            else if($tipoErro === "naoUpload" || $tipoErro === "falhaEnviar")
+            {
+                echo "<script type='text/javascript'>";
+                        echo "location.href='http://localhost/uploadoTemp/index.php?erro=enviar';";
+                echo "</script>";
+            }
+            else if($tipoErro === "extensao")
+            {
+                echo "<script type='text/javascript'>";
+                        echo "location.href='http://localhost/uploadoTemp/index.php?erro=tipo';";
+                echo "</script>";
+            }
+            else 
+            {
+                 echo "<script type='text/javascript'>";
+                         echo "location.href='http://localhost/uploadoTemp/arquivo.php?erro=false';";
+                echo "</script>";
+                
+            }
+            }
+            else 
+            {
+               echo "<script type='text/javascript'>";
+                         echo "location.href='http://localhost/uploadoTemp/index.php?erro=captcha';";
+                echo "</script>";               
+            }
+            
             
         }
         
